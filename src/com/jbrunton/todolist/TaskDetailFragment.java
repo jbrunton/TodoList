@@ -73,7 +73,7 @@ public class TaskDetailFragment extends Fragment {
 	protected void saveTask() {
 		if (mItem != null) {
 			EditText title = (EditText)getView().findViewById(R.id.title);
-			mItem.content = title.getText().toString();
+			mItem.title = title.getText().toString();
 		}
 	}
 	
@@ -86,7 +86,7 @@ public class TaskDetailFragment extends Fragment {
 		// Show the dummy content as text in a TextView.
 		if (mItem != null) {
 			((TextView) rootView.findViewById(R.id.title))
-					.setText(mItem.content);
+					.setText(mItem.title);
 		}
 
 		return rootView;

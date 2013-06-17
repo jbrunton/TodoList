@@ -40,17 +40,17 @@ public class DummyContent {
 	 */
 	public static class Task {
 		public String id;
-		public String content;
+		public String title;
 		public boolean complete;
 
 		public Task(String id, String content) {
 			this.id = id;
-			this.content = content;
+			this.title = content;
 		}
 
 		@Override
 		public String toString() {
-			return content;
+			return title;
 		}
 	}
 }
