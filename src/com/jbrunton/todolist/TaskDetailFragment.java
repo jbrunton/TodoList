@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -74,6 +75,10 @@ public class TaskDetailFragment extends Fragment {
 		if (mItem != null) {
 			EditText title = (EditText)getView().findViewById(R.id.title);
 			mItem.title = title.getText().toString();
+			EditText details = (EditText)getView().findViewById(R.id.details);
+			mItem.details = details.getText().toString();
+			CheckBox complete = (CheckBox) getView().findViewById(R.id.complete);
+			mItem.complete = complete.isChecked();
 		}
 	}
 	
@@ -87,6 +92,10 @@ public class TaskDetailFragment extends Fragment {
 		if (mItem != null) {
 			((TextView) rootView.findViewById(R.id.title))
 					.setText(mItem.title);
+			((TextView) rootView.findViewById(R.id.details))
+					.setText(mItem.details);
+			((CheckBox) rootView.findViewById(R.id.complete))
+					.setChecked(mItem.complete);
 		}
 
 		return rootView;

@@ -42,6 +42,7 @@ public class DummyContent {
 		public String id;
 		public String title;
 		public boolean complete;
+		public String details;
 
 		public Task(String id, String content) {
 			this.id = id;
