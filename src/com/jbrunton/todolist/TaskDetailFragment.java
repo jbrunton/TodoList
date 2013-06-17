@@ -1,10 +1,16 @@
 package com.jbrunton.todolist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jbrunton.todolist.dummy.DummyContent;
@@ -36,7 +42,8 @@ public class TaskDetailFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		setHasOptionsMenu(true);
+		
 		if (getArguments().containsKey(ARG_ITEM_ID)) {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
@@ -46,6 +53,28 @@ public class TaskDetailFragment extends Fragment {
 		}
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			NavUtils.navigateUpTo(getActivity(), new Intent(getActivity(),TaskListActivity.class));
+			return true;
+		case R.id.action_done:
+			saveTask();
+			getActivity().finish();
+			return true;
+		default: return super.onOptionsItemSelected(item);
+		}
+			
+	}
+	
+	protected void saveTask() {
+		if (mItem != null) {
+			EditText title = (EditText)getView().findViewById(R.id.title);
+			mItem.content = title.getText().toString();
+		}
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -60,4 +89,10 @@ public class TaskDetailFragment extends Fragment {
 
 		return rootView;
 	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.task_details, menu);
+	}	
+	
 }
