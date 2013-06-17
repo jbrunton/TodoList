@@ -1,5 +1,6 @@
 package com.jbrunton.todolist;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -27,6 +28,7 @@ public class TaskListActivity extends FragmentActivity implements
 	 * device.
 	 */
 	private boolean mTwoPane;
+	private static int TASK_DETAIL_REQUEST;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,18 @@ public class TaskListActivity extends FragmentActivity implements
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this, TaskDetailActivity.class);
 			detailIntent.putExtra(TaskDetailFragment.ARG_ITEM_ID, id);
-			startActivity(detailIntent);
+			startActivityForResult(detailIntent, TASK_DETAIL_REQUEST);
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == Activity.RESULT_OK) {
+			if (requestCode == TASK_DETAIL_REQUEST) {
+				TaskListFragment taskListFragment = (TaskListFragment) getSupportFragmentManager().findFragmentById(
+						R.id.task_list);
+				taskListFragment.notifyDataSetChanged();
+			}
 		}
 	}
 }

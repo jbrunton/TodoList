@@ -1,5 +1,6 @@
 package com.jbrunton.todolist;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -61,6 +62,7 @@ public class TaskDetailFragment extends Fragment {
 			return true;
 		case R.id.action_done:
 			saveTask();
+			getActivity().setResult(Activity.RESULT_OK, new Intent());
 			getActivity().finish();
 			return true;
 		default: return super.onOptionsItemSelected(item);

@@ -65,15 +65,22 @@ public class TaskListFragment extends ListFragment {
 	 */
 	public TaskListFragment() {
 	}
+	
+	private ArrayAdapter<DummyContent.Task> mAdapter;
+	
+	public void notifyDataSetChanged() {
+		mAdapter.notifyDataSetChanged();
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// TODO: replace with a real list adapter.
-		setListAdapter(new ArrayAdapter<DummyContent.Task>(getActivity(),
+		mAdapter = new ArrayAdapter<DummyContent.Task>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, DummyContent.ITEMS));
+				android.R.id.text1, DummyContent.ITEMS);
+		setListAdapter(mAdapter);
 	}
 
 	@Override
