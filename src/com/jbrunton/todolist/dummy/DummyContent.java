@@ -16,33 +16,34 @@ public class DummyContent {
 	/**
 	 * An array of sample (dummy) items.
 	 */
-	public static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+	public static List<Task> ITEMS = new ArrayList<Task>();
 
 	/**
 	 * A map of sample (dummy) items, by ID.
 	 */
-	public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
+	public static Map<String, Task> ITEM_MAP = new HashMap<String, Task>();
 
 	static {
 		// Add 3 sample items.
-		addItem(new DummyItem("1", "Item 1"));
-		addItem(new DummyItem("2", "Item 2"));
-		addItem(new DummyItem("3", "Item 3"));
+		addItem(new Task("1", "Item 1"));
+		addItem(new Task("2", "Item 2"));
+		addItem(new Task("3", "Item 3"));
 	}
 
-	private static void addItem(DummyItem item) {
+	private static void addItem(Task item) {
 		ITEMS.add(item);
 		ITEM_MAP.put(item.id, item);
 	}
 
 	/**
-	 * A dummy item representing a piece of content.
+	 * An item representing a piece of content.
 	 */
-	public static class DummyItem {
+	public static class Task {
 		public String id;
 		public String content;
+		public boolean complete;
 
-		public DummyItem(String id, String content) {
+		public Task(String id, String content) {
 			this.id = id;
 			this.content = content;
 		}
