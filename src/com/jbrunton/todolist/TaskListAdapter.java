@@ -16,10 +16,12 @@ import com.jbrunton.todolist.models.Task;
 
 public class TaskListAdapter extends ArrayAdapter<Task>{
 	private FragmentActivity mContext;
+	private TasksDataSource mDataSource;
 	
-	public TaskListAdapter(FragmentActivity context, List<Task> tasks) {
-		super(context, R.layout.task_list_item, tasks);
+	public TaskListAdapter(FragmentActivity context, TasksDataSource dataSource) {
+		super(context, R.layout.task_list_item, dataSource.getAllTasks());
 		mContext = context;
+		mDataSource = dataSource;
 	}
 	
 	@Override
@@ -36,6 +38,7 @@ public class TaskListAdapter extends ArrayAdapter<Task>{
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				task.setComplete(isChecked);
+				mDataSource.saveTask(task);
 			}});
 		
 		return view;

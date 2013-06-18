@@ -71,8 +71,8 @@ public class TaskListFragment extends ListFragment {
 	
 	private ArrayAdapter<Task> mAdapter;
 	
-	public void notifyDataSetChanged() {
-		mAdapter.notifyDataSetChanged();
+	public ArrayAdapter<Task> getAdapter() {
+		return mAdapter;
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class TaskListFragment extends ListFragment {
 		mDataSource.open();
 		
 		// TODO: replace with a real list adapter.
-		mAdapter = new TaskListAdapter(getActivity(), mDataSource.getAllTasks());
+		mAdapter = new TaskListAdapter(getActivity(), mDataSource);
 		setListAdapter(mAdapter);
 	}
 

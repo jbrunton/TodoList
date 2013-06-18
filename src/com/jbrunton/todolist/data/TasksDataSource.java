@@ -68,8 +68,8 @@ public class TasksDataSource {
 		
 		ContentValues values = new ContentValues();
 		values.put(TodoListSQLiteOpenHelper.COLUMN_TITLE, task.getTitle());
-		values.put(TodoListSQLiteOpenHelper.COLUMN_COMPLETE, task.getComplete());
 		values.put(TodoListSQLiteOpenHelper.COLUMN_DETAILS, task.getDetails());
+		values.put(TodoListSQLiteOpenHelper.COLUMN_COMPLETE, task.getComplete() ? 1 : 0);
 		
 		System.out.println("Task saved with id: " + id);
 		database.update(TodoListSQLiteOpenHelper.TABLE_TASKS, values,
@@ -106,6 +106,8 @@ public class TasksDataSource {
 		Task task = new Task();
 		task.setId(cursor.getLong(0));
 		task.setTitle(cursor.getString(1));
+		task.setDetails(cursor.getString(2));
+		task.setComplete(cursor.getInt(3) == 0 ? false : true);
 		return task;
 	}
 } 

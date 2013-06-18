@@ -90,7 +90,8 @@ public class TaskListActivity extends FragmentActivity implements
 			if (requestCode == TASK_DETAIL_REQUEST) {
 				TaskListFragment taskListFragment = (TaskListFragment) getSupportFragmentManager().findFragmentById(
 						R.id.task_list);
-				taskListFragment.notifyDataSetChanged();
+				taskListFragment.getAdapter().clear();
+				taskListFragment.getAdapter().addAll(mDataSource.getAllTasks());
 			}
 		}
 	}
