@@ -7,7 +7,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.jbrunton.todolist.dummy.DummyContent;
+import com.jbrunton.todolist.data.TasksDataSource;
+import com.jbrunton.todolist.models.Task;
 
 /**
  * A list fragment representing a list of Tasks. This fragment also supports
@@ -46,7 +47,7 @@ public class TaskListFragment extends ListFragment {
 		/**
 		 * Callback for when an item has been selected.
 		 */
-		public void onItemSelected(String id);
+		public void onItemSelected(long id);
 	}
 
 	/**
@@ -55,9 +56,11 @@ public class TaskListFragment extends ListFragment {
 	 */
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 		@Override
-		public void onItemSelected(String id) {
+		public void onItemSelected(long id) {
 		}
 	};
+	
+	private TasksDataSource mDataSource;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -66,7 +69,7 @@ public class TaskListFragment extends ListFragment {
 	public TaskListFragment() {
 	}
 	
-	private ArrayAdapter<DummyContent.Task> mAdapter;
+	private ArrayAdapter<Task> mAdapter;
 	
 	public void notifyDataSetChanged() {
 		mAdapter.notifyDataSetChanged();
@@ -76,8 +79,11 @@ public class TaskListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		mDataSource = new TasksDataSource(getActivity());
+		mDataSource.open();
+		
 		// TODO: replace with a real list adapter.
-		mAdapter = new TaskListAdapter(getActivity(), DummyContent.ITEMS);
+		mAdapter = new TaskListAdapter(getActivity(), mDataSource.getAllTasks());
 		setListAdapter(mAdapter);
 	}
 
@@ -121,7 +127,7 @@ public class TaskListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+		mCallbacks.onItemSelected(mAdapter.getItem(position).getId());
 	}
 
 	@Override

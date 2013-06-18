@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.jbrunton.todolist.data.TasksDataSource;
+
 /**
  * An activity representing a list of Tasks. This activity has different
  * presentations for handset and tablet-size devices. On handsets, the activity
@@ -29,11 +31,16 @@ public class TaskListActivity extends FragmentActivity implements
 	 */
 	private boolean mTwoPane;
 	private static int TASK_DETAIL_REQUEST;
+	
+	private TasksDataSource mDataSource;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_list);
+		
+		mDataSource = new TasksDataSource(this);
+		mDataSource.open();
 
 		if (findViewById(R.id.task_detail_container) != null) {
 			// The detail container view will be present only in the
@@ -56,13 +63,13 @@ public class TaskListActivity extends FragmentActivity implements
 	 * the item with the given ID was selected.
 	 */
 	@Override
-	public void onItemSelected(String id) {
+	public void onItemSelected(long id) {
 		if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(TaskDetailFragment.ARG_ITEM_ID, id);
+			arguments.putLong(TaskDetailFragment.ARG_ITEM_ID, id);
 			TaskDetailFragment fragment = new TaskDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
