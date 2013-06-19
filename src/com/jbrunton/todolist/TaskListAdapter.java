@@ -23,7 +23,8 @@ public class TaskListAdapter extends ArrayAdapter<Task>{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = this.mContext.getLayoutInflater().inflate(R.layout.task_list_item, parent, false);
-		final Task task = this.getItem(position);
+		// we need this to be final as we're assigning it in the anonymous class "onCheckedChanged" below.  And it would complain if it wasn't final
+		final Task task = this.getItem(position); 
 		( (TextView) view.findViewById(R.id.title)).setText(task.title);
 		
 		CheckBox complete = (CheckBox) view.findViewById(R.id.complete);
