@@ -15,7 +15,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jbrunton.todolist.dummy.DummyContent;
+import com.jbrunton.todolist.data.TasksDataSource;
+import com.jbrunton.todolist.models.Task;
 
 /**
  * A fragment representing a single Task detail screen. This fragment is either
@@ -32,7 +33,9 @@ public class TaskDetailFragment extends Fragment {
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
-	private DummyContent.Task mItem;
+	private Task mItem;
+	
+	private TasksDataSource mDataSource;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -46,12 +49,15 @@ public class TaskDetailFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		
+		mDataSource = new TasksDataSource(getActivity());
+		mDataSource.open();
+		
 		if (getArguments().containsKey(ARG_ITEM_ID)) {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			mItem = DummyContent.ITEM_MAP.get(getArguments().getString(
-					ARG_ITEM_ID));
+			long taskId = getArguments().getLong(ARG_ITEM_ID);
+			mItem = mDataSource.find(taskId);
 		}
 	}
 
@@ -74,11 +80,12 @@ public class TaskDetailFragment extends Fragment {
 	protected void saveTask() {
 		if (mItem != null) {
 			EditText title = (EditText)getView().findViewById(R.id.title);
-			mItem.title = title.getText().toString();
+			mItem.setTitle(title.getText().toString());
 			EditText details = (EditText)getView().findViewById(R.id.details);
-			mItem.details = details.getText().toString();
+			mItem.setDetails(details.getText().toString());
 			CheckBox complete = (CheckBox) getView().findViewById(R.id.complete);
-			mItem.complete = complete.isChecked();
+			mItem.setComplete(complete.isChecked());
+			mDataSource.saveTask(mItem);
 		}
 	}
 	
@@ -91,11 +98,11 @@ public class TaskDetailFragment extends Fragment {
 		// Show the dummy content as text in a TextView.
 		if (mItem != null) {
 			((TextView) rootView.findViewById(R.id.title))
-					.setText(mItem.title);
+					.setText(mItem.getTitle());
 			((TextView) rootView.findViewById(R.id.details))
-					.setText(mItem.details);
+					.setText(mItem.getDetails());
 			((CheckBox) rootView.findViewById(R.id.complete))
-					.setChecked(mItem.complete);
+					.setChecked(mItem.getComplete());
 		}
 
 		return rootView;
