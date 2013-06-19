@@ -11,6 +11,7 @@ public class TodoListSQLiteOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_TITLE = "title";
 	public static final String COLUMN_DETAILS = "details";
 	public static final String COLUMN_COMPLETE = "complete";
+	public static final String COLUMN_DUE_DATE = "due_date";
 
 	private static final String DATABASE_NAME = "tasks.db";
 	private static final int DATABASE_VERSION = 1;
@@ -21,7 +22,8 @@ public class TodoListSQLiteOpenHelper extends SQLiteOpenHelper {
 			+ COLUMN_ID + " integer primary key autoincrement, "
 			+ COLUMN_TITLE + " text not null, "
 			+ COLUMN_DETAILS + " text, "
-			+ COLUMN_COMPLETE + " integer not null);";
+			+ COLUMN_COMPLETE + " integer not null, "
+			+ COLUMN_DUE_DATE + " text not null);";
 
 	public TodoListSQLiteOpenHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

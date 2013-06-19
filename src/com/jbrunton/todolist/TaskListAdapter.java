@@ -30,6 +30,7 @@ public class TaskListAdapter extends ArrayAdapter<Task>{
 		// we need this to be final as we're assigning it in the anonymous class "onCheckedChanged" below.  And it would complain if it wasn't final
 		final Task task = this.getItem(position);
 		( (TextView) view.findViewById(R.id.title)).setText(task.getTitle());
+		( (TextView) view.findViewById(R.id.due_date)).setText(task.getDueDate());
 		
 		CheckBox complete = (CheckBox) view.findViewById(R.id.complete);
 		complete.setChecked(task.getComplete());

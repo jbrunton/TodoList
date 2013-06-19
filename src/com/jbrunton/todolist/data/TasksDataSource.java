@@ -1,6 +1,8 @@
 package com.jbrunton.todolist.data;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -20,7 +22,8 @@ public class TasksDataSource {
 			TodoListSQLiteOpenHelper.COLUMN_ID,
 			TodoListSQLiteOpenHelper.COLUMN_TITLE,
 			TodoListSQLiteOpenHelper.COLUMN_DETAILS,
-			TodoListSQLiteOpenHelper.COLUMN_COMPLETE };
+			TodoListSQLiteOpenHelper.COLUMN_COMPLETE,
+			TodoListSQLiteOpenHelper.COLUMN_DUE_DATE};
 
 	public TasksDataSource(Context context) {
 		dbHelper = new TodoListSQLiteOpenHelper(context);
@@ -29,11 +32,19 @@ public class TasksDataSource {
 	public void open() throws SQLException {
 		database = dbHelper.getWritableDatabase();
 		
+		Calendar rightNow = Calendar.getInstance(); // this defaults to today's date 
+		
 		// urgh, test data in the wrong place
+		// not sure if this is the best way, but it appears to work for the UK locale . . .
 		if (getAllTasks().size() == 0) {
-			createTask("Task 1");
-			createTask("Task 2");
-			createTask("Task 3");
+			String dateFormat = DateFormat.getDateInstance().format(rightNow.getTime());
+			createTask("Task 1", dateFormat );
+			rightNow.roll(Calendar.WEEK_OF_MONTH, 1);
+			dateFormat = DateFormat.getDateInstance().format(rightNow.getTime());
+			createTask("Task 2", dateFormat);
+			rightNow.roll(Calendar.WEEK_OF_MONTH, 2);
+			dateFormat = DateFormat.getDateInstance().format(rightNow.getTime());
+			createTask("Task 3", dateFormat);
 		}
 	}
 
@@ -41,10 +52,12 @@ public class TasksDataSource {
 		dbHelper.close();
 	}
 
-	public Task createTask(String title) {
+	public Task createTask(String title, String dueDate) {
 		ContentValues values = new ContentValues();
 		values.put(TodoListSQLiteOpenHelper.COLUMN_TITLE, title);
 		values.put(TodoListSQLiteOpenHelper.COLUMN_COMPLETE, 0);
+		values.put(TodoListSQLiteOpenHelper.COLUMN_DUE_DATE, dueDate);
+		
 		long insertId = database.insert(TodoListSQLiteOpenHelper.TABLE_TASKS,
 				null, values);
 		Cursor cursor = database.query(TodoListSQLiteOpenHelper.TABLE_TASKS,
@@ -70,6 +83,7 @@ public class TasksDataSource {
 		values.put(TodoListSQLiteOpenHelper.COLUMN_TITLE, task.getTitle());
 		values.put(TodoListSQLiteOpenHelper.COLUMN_DETAILS, task.getDetails());
 		values.put(TodoListSQLiteOpenHelper.COLUMN_COMPLETE, task.getComplete() ? 1 : 0);
+		values.put(TodoListSQLiteOpenHelper.COLUMN_DETAILS, task.getDueDate());
 		
 		System.out.println("Task saved with id: " + id);
 		database.update(TodoListSQLiteOpenHelper.TABLE_TASKS, values,
@@ -108,6 +122,7 @@ public class TasksDataSource {
 		task.setTitle(cursor.getString(1));
 		task.setDetails(cursor.getString(2));
 		task.setComplete(cursor.getInt(3) == 0 ? false : true);
+		task.setDueDate(cursor.getString(4));
 		return task;
 	}
 } 

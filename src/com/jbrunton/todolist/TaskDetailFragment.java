@@ -85,6 +85,8 @@ public class TaskDetailFragment extends Fragment {
 			mItem.setDetails(details.getText().toString());
 			CheckBox complete = (CheckBox) getView().findViewById(R.id.complete);
 			mItem.setComplete(complete.isChecked());
+			EditText due_date = (EditText)getView().findViewById(R.id.due_date);
+			mItem.setTitle(due_date.getText().toString());
 			mDataSource.saveTask(mItem);
 		}
 	}
@@ -103,6 +105,8 @@ public class TaskDetailFragment extends Fragment {
 					.setText(mItem.getDetails());
 			((CheckBox) rootView.findViewById(R.id.complete))
 					.setChecked(mItem.getComplete());
+			((TextView) rootView.findViewById(R.id.due_date))
+					.setText(mItem.getDueDate());
 		}
 
 		return rootView;
