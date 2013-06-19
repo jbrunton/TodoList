@@ -91,7 +91,7 @@ public class TaskListActivity extends FragmentActivity implements
 				TaskListFragment taskListFragment = (TaskListFragment) getSupportFragmentManager().findFragmentById(
 						R.id.task_list);
 				taskListFragment.getAdapter().clear();
-				taskListFragment.getAdapter().addAll(mDataSource.getAllTasks());
+				taskListFragment.getAdapter().addAll(mDataSource.getAll());
 			}
 		}
 	}

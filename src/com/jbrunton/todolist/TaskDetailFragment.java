@@ -85,7 +85,7 @@ public class TaskDetailFragment extends Fragment {
 			mItem.setDetails(details.getText().toString());
 			CheckBox complete = (CheckBox) getView().findViewById(R.id.complete);
 			mItem.setComplete(complete.isChecked());
-			mDataSource.saveTask(mItem);
+			mDataSource.save(mItem);
 		}
 	}
 	

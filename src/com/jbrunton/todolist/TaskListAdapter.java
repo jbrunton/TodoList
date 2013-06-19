@@ -19,7 +19,7 @@ public class TaskListAdapter extends ArrayAdapter<Task>{
 	private TasksDataSource mDataSource;
 	
 	public TaskListAdapter(FragmentActivity context, TasksDataSource dataSource) {
-		super(context, R.layout.task_list_item, dataSource.getAllTasks());
+		super(context, R.layout.task_list_item, dataSource.getAll());
 		mContext = context;
 		mDataSource = dataSource;
 	}
@@ -39,7 +39,7 @@ public class TaskListAdapter extends ArrayAdapter<Task>{
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				task.setComplete(isChecked);
-				mDataSource.saveTask(task);
+				mDataSource.save(task);
 			}});
 		
 		return view;
