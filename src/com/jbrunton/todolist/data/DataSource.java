@@ -66,12 +66,16 @@ public abstract class DataSource<EntityT extends DataEntity> {
 
 
 	public EntityT find(long id) {
-		for (EntityT entity : getAll()) {
-			if (entity.getId() == id) {
-				return entity;
-			}
+		Cursor cursor = mDatabase.query(mTableName, mColumns,
+				TodoListSQLiteOpenHelper.COLUMN_ID + " = " + id, null,
+				null, null, null);
+		cursor.moveToFirst();
+		if (!cursor.isAfterLast()) {
+			EntityT entity = createFromCursor(cursor);
+			return entity;
+		} else {
+			return null;
 		}
-		return null;
 	}
 
 	public List<EntityT> getAll() {
